@@ -2,6 +2,7 @@ const router = require('express').Router()
 const db = require('../models')
 const mongoose = require('mongoose')
 
+
 // test groupid: 5f56d709f133f32a113fbd81
 // test userid: 5f56d709f133f32a113fbd80
 // test chore: 5f56d98449de142c74f597fc
@@ -24,8 +25,7 @@ router.post("/new", (req, res) => {
     });
 });
 
-// mark a chore as complete
-// still need to do: create a conditional that checks the boolean of chore status and either removes the chore from the user or add it in
+// mark a chore as complete and uncomplete
 router.post('/:id/complete', (req, res) => {
    db.Chore.findOne({_id: req.params.id})
     .then(foundChore => {
@@ -65,11 +65,9 @@ router.post('/:id/complete', (req, res) => {
     });
 })
 
-
-
-
-
 // assign all chores randomly on Sunday at 6pm
+
+
     // stretch, send an email with this information
 
 // display all chores for this week
