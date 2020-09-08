@@ -4,6 +4,8 @@ const app = express()
 const cors = require('cors')
 const port = process.env.PORT || 8000
 const passport = require('passport')
+const schedule = require("node-schedule");
+const db = require('./models')
 
 
 app.use(cors())
@@ -26,6 +28,12 @@ app.get('/', (req, res) => {
 })
 
 app.use('/api/users' , users)
+
+let resetAssignments = schedule.scheduleJob("0 16 ? * 7", function () {
+    // create algorithm for shuffling user assignments
+    // create function for sending out the email to the current users
+});
+
 
 
 app.listen(port, () => {

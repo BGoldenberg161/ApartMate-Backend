@@ -26,6 +26,10 @@ const UserSchema = new Schema({
         type: mongoose.Schema.Types.ObjectId,
         default: []
     }],
+    completedChore: [{
+        type: String,
+        default: []
+    }],
     date: {
         type: Date,
         default: Date.now()
