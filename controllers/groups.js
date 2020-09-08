@@ -25,11 +25,13 @@ router.get('/:groupId', (req, res) => {
 
 // Route to Create Group
 router.post('/create', (req, res) => {
+  console.log(req.body.groupName)
+  console.log('🏆', req )
   // see if req.user.id can hold the same values
   let groupPin = Math.random().toString().substr(2, 4)
   db.Group.create({
-    name: req.body.name,
-    users: mongoose.Types.ObjectId(req.body.user),
+    name: req.body.groupName,
+    users: mongoose.Types.ObjectId(req.body.groupUser.id),
     pin: groupPin,
   })
   .then(createdGroup => {
