@@ -4,7 +4,7 @@ const Schema = mongoose.Schema;
 const ChoreSchema = new Schema({
   taskName: {
     type: String,
-    default: "",
+    required: true,
   },
   taskDetail: {
     type: String,
@@ -18,29 +18,21 @@ const ChoreSchema = new Schema({
     type: String,
     default: "",
   },
-  dueDate: {
-    type: Date,
-  },
-  startDate: {
-    type: Date,
-  },
   completeDate: {
     type: Date,
   },
   isDone: {
     type: Boolean,
-    default: false
+    default: false,
   },
-  isRecurring: {
+  isRepeating: {
     type: Boolean,
-  },
-  icon: {
-    type: String,
+    default: true
   },
   date: {
     type: Date,
-    default: Date.now()
-  }
+    default: Date.now(),
+  },
 });
 
 module.exports = mongoose.model("Chore", ChoreSchema);

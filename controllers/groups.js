@@ -2,6 +2,9 @@ const router = require('express').Router()
 const db = require('../models')
 const mongoose = require('mongoose')
 
+// test groupid: 5f56d709f133f32a113fbd81
+// test userid: 5f56d709f133f32a113fbd80
+
 //test route to see all users
 router.get('/user', (req, res) => {
   db.User.find()
