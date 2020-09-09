@@ -13,6 +13,19 @@ router.get('/user', (req, res) => {
   })
 })
 
+//route to see all groups for a user
+router.get('/', (req, res) => {
+  db.Group.find({user_id: {$in: [req.body.userId]}})
+  .then(foundGroups => {
+    console.log(foundGroups)
+    res.send(foundGroups)
+  })
+  .catch(err => {
+    console.log("Group fetch error: ", err)
+    res.status(503).send({message: "Mongo says no groups... maybe"})
+  })
+})
+
 // Route for Displaying All Users Belonging to the Group
 router.get('/:groupId', (req, res) => {
   db.User.find({group_id: {$in: req.params.groupId}})
@@ -31,7 +44,7 @@ router.post('/create', (req, res) => {
   console.log(req.body.groupName)
   console.log('🏆', req )
   // see if req.user.id can hold the same values
-  let groupPin = Math.random().toString().substr(2, 4)
+  let groupPin = Math.random().toString().substr(2, 6)
   db.Group.create({
     name: req.body.groupName,
     users: mongoose.Types.ObjectId(req.body.groupUser.id),
