@@ -35,7 +35,7 @@ router.get('/:groupId', (req, res) => {
 router.post("/new", (req, res) => {
   db.Chore.create({
     taskName: req.body.input,
-    user_id: req.body.theUser.id,
+    user_id: req.body.thisUser.id,
     taskDetail: req.body.taskDetail,
     group_id: req.body.group,
     isRepeating: req.body.rep,
