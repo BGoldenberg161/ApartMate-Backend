@@ -26,7 +26,7 @@ const ChoreSchema = new Schema({
     default: false,
   },
   claim: {
-    type: String,
+    type: mongoose.Schema.Types.ObjectId,
     default: '',
   },
   isRepeating: {

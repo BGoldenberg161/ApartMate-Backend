@@ -14,6 +14,12 @@ router.get('/:groupId', (req, res) => {
     ).sort('-date').exec(function(err, collectionItems) {
         res.send(collectionItems)
     })
+    .then(chores => {
+      db.User.findById(chores.claimed)
+    })
+    .then(users => {
+      res.send(users)
+    })
 })
 
 // create a new chore
@@ -97,7 +103,7 @@ router.post('/:id/claim', (req, res) => {
 
 // //{PUT} Edit the Name of the Chore
 // router.put('/edit/:choreId', (req, res) => {
-//   db.Chore.findById()
+//   db.Chore.findById(req.params.choreId)
 // })
 
 
@@ -113,12 +119,17 @@ router.post('/:id/claim', (req, res) => {
 
 
 // // {GET} get all chores for current user
-// router.get('/', (req, res) => {
-//     //find chores associated to userid
-//     // db.Chore.find({group_id: })
-//     //send to page
-
-// })
+router.get('/', (req, res) => {
+    // find chores associated to userid
+    db.Chore.find({claim: req.body.user})
+    .then(chores => {
+      res.send(chores)
+    })
+    .catch((err) => {
+      console.log("This fetch chores error: ", err);
+      res.status(503).send({ message: "Mongo don't like chores 😡" });
+    });
+})
 
 
 
