@@ -35,6 +35,8 @@ router.post("/new", (req, res) => {
 });
 
 // mark a chore as complete and incomplete
+// if chore is marked as completed, then make it green
+// if that is hard logic to implement on the front-end, I can make it set the "claim" field to "completed" for your front-end if statement
 router.post('/:id/complete', (req, res) => {
    db.Chore.findOne({_id: req.params.id})
     .then(foundChore => {
@@ -43,7 +45,9 @@ router.post('/:id/complete', (req, res) => {
         console.log('if path was run')
         db.Chore.findByIdAndUpdate(
             {_id: req.params.id},
-            {isDone: true}
+            {isDone: true,
+            neverDone: false
+            }
         ).then(changedChore => {
         console.log(changedChore)
         })
@@ -74,18 +78,27 @@ router.post('/:id/complete', (req, res) => {
     });
 })
 
-// assign all chores randomly on Sunday at 6pm
-// stretch, send an email with this information
+// if chore is unclaimed = grey, if chore is claimed but not done = yellow, if chore is done = green
 
-// display all chores for this week
-
-// display previously completed chores
 
 // claim a chore
+// front end logic: if claim = '' then it should be grey, if it's not an empty string, it's claimed
+router.post('/:id/claim', (req, res) => {
+  db.Chore.findByIdAndUpdate(
+    { _id: req.params.id },
+    // replace this whatever you name it on the front end
+    { claim: req.body.user }
+  ).then((claimedChore) => {
+    res.status(201).send(claimedChore);
+  });
+})
 
-// unclaim a chore
+// stretch, unclaim a chore, if you unclaim a chore everyone is notified that you unclaimed it.
 
-// if chore is unclaimed = grey, if chore is claimed but not done = yellow, if chore is done = green
+// //{PUT} Edit the Name of the Chore
+// router.put('/edit/:choreId', (req, res) => {
+//   db.Chore.findById()
+// })
 
 
 
@@ -108,12 +121,7 @@ router.post('/:id/complete', (req, res) => {
 // })
 
 
-// //{PUT} update chores
-// router.put('/edit/:choreId', (req, res) => {
-//     //find chore by id
-//     //$set updated field
 
-// })
 
 
 
