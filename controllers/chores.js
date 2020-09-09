@@ -34,13 +34,14 @@ router.get('/:groupId', (req, res) => {
 // create a new chore
 router.post("/new", (req, res) => {
   db.Chore.create({
-    taskName: req.body.taskName,
-    user_id: req.body.user,
+    taskName: req.body.input,
+    user_id: req.body.theUser.id,
     taskDetail: req.body.taskDetail,
-    group_id: req.body.groupId,
-    isRepeating: req.body.isRepeating,
+    group_id: req.body.group,
+    isRepeating: req.body.rep,
   })
     .then((createdChore) => {
+      console.log(createdChore)
       res.send(createdChore);
     })
     .catch((err) => {
