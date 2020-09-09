@@ -15,8 +15,10 @@ router.get('/:groupId', (req, res) => {
         collectionItems.forEach((collectionItems) => {
             db.User.find({ _id: collectionItems.claim })
             .then(users => {
-              users.forEach(users => {
-              console.log(users.name)
+              .forEach(function (users) {
+                console.log(users)
+              })
+              console.log(users);
               db.Chore.findByIdAndUpdate(
                 { _id: collectionItems._id },
                 { claimName: users.name }
@@ -24,7 +26,6 @@ router.get('/:groupId', (req, res) => {
               .then((claimedName) => {
                 console.log("claimed users: " + claimedName);
               });
-              })
             });
           })
         res.send(collectionItems)
