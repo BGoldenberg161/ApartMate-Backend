@@ -29,8 +29,74 @@ app.get('/', (req, res) => {
 
 app.use('/api/users' , users)
 
-let resetAssignments = schedule.scheduleJob("0 16 ? * 7", function () {
+// assign all chores randomly on Sunday at 6pm
+// let resetAssignments = schedule.scheduleJob("0 16 ? * 7", function () {
+app.post('/resetAll', (req, res) => {
     // create algorithm for shuffling user assignments
+    db.Group.find()
+    .then(foundGroups => {
+        foundGroups.forEach(foundGroups => {
+            // console.log(foundGroups)
+            db.Chore.find(
+                {group_id: foundGroups._id}
+            ).then(foundChores => {
+                // console.log(foundChores)
+                foundChores.forEach(foundChores => {
+                    if(foundChores.isDone === false) {
+                        console.log('If')
+                        db.Chore.findByIdAndUpdate(
+                          { _id: foundChores._id },
+                          { $set: { neverDone: true } },
+                          { new: true }
+                        ).then(choresCheck => {
+                        console.log("Never Done" + choresCheck.neverDone)
+                        })
+                    } else {
+                        console.log('Else')
+                        db.Chore.findByIdAndUpdate(
+                          { _id: foundChores._id },
+                          { $set: { isDone: false } },
+                          { new: true }
+                        ).then(choresCheck => {
+                            console.log("Completed" + choresCheck.isDone)
+                        })
+                    }
+                })
+            })
+            .then(foundGroups => {
+                db.Group.find()
+                .then(foundGroupsTwo => {
+                foundGroupsTwo.forEach(foundGroupsTwo => {
+                    db.Chore.find(
+                        {
+                        group_id: foundGroupsTwo._id,
+                        isRepeating: true,
+                        neverDone: false
+                    }
+                    ).then(foundChoresTwo => {
+                        console.log("found chores" + foundChoresTwo);
+                        foundChoresTwo.forEach(foundChoresTwo => {
+                            let maxIndexNumber = foundGroupsTwo.users.length;
+                            let randomIndex = Math.floor(Math.random() * maxIndexNumber);
+                            db.Chore.findByIdAndUpdate(
+                                {_id: foundChoresTwo._id},
+                                {$set: {claim: foundGroupsTwo.users[randomIndex]}},
+                                {new: true}
+                            )
+                            .then(assignedChores => {
+                                console.log("assigned chores" + assignedChores._id)
+                            })
+                        })
+                    })
+                    .then(response => {
+                    // console.log(response)
+                    })
+                })
+                })
+            })
+        })
+    })
+    res.status(201).json({message: 'this worked'})
     // create function for sending out the email to the current users
 });
 

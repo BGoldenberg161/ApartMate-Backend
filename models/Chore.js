@@ -25,9 +25,17 @@ const ChoreSchema = new Schema({
     type: Boolean,
     default: false,
   },
+  claim: {
+    type: String,
+    default: '',
+  },
   isRepeating: {
     type: Boolean,
     default: true
+  },
+  neverDone: {
+    type: Boolean,
+    default: false
   },
   date: {
     type: Date,
