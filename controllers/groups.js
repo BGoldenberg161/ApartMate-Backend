@@ -72,12 +72,12 @@ router.post('/create', (req, res) => {
 router.put('/add/:groupId', (req, res) => {
   db.Group.findOneAndUpdate(
     { _id: req.params.groupId },
-    { $push: { users: req.body.user }},
+    { $push: { users: req.body.userId }},
     {"new": true}
   )
   .then(updatedGroup => {
     db.User.findOneAndUpdate(
-      { _id: req.body.user },
+      { _id: req.body.userId },
       { $push: { group_id: updatedGroup._id }},
       {"new": true}
     )
