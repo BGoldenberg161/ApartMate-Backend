@@ -29,7 +29,6 @@ router.post('/register', (req, res) => {
                 email: req.body.email,
                 password: req.body.password,
                 phone: req.body.phone,
-                venmo: req.body.venmo
             })
             bcrypt.genSalt(10, (error, salt) => {
                 bcrypt.hash(newUser.password, salt, (err, hash) => {
@@ -71,6 +70,19 @@ router.post('/login', (req, res) => {
                 }
             })
         }
+    })
+})
+
+//Add Venmo Handle to User
+router.post('/addVenmo', (req, res) => {
+    db.User.findOneAndUpdate(
+        {_id: req.body.userId},
+        {$set: {venmo: req.body.venmoHandle}},
+        {new: true}
+    )
+    .then(user => {
+        console.log(user.venmo)
+        res.send(user)
     })
 })
 
