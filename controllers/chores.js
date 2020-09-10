@@ -51,18 +51,18 @@ router.post('/new', (req, res) => {
 // if chore is marked as completed, then make it green
 // if that is hard logic to implement on the front-end, I can make it set the "claim" field to "completed" for your front-end if statement
 router.post('/:id/complete', (req, res) => {
-	db.Chore.findOne({ _id: req.params.id }).then(foundChore => {
+	db.Chore.findOne({ _id: mongoose.Types.ObjectId(req.params.id) }).then(foundChore => {
 		console.log(foundChore.isDone);
 		if (foundChore.isDone === false) {
 			console.log('if path was run');
 			db.Chore.findByIdAndUpdate(
-				{ _id: req.params.id },
+				{ _id: mongoose.Types.ObjectId(req.params.id) },
 				{ isDone: true, neverDone: false }
 			).then(changedChore => {
 				console.log(changedChore);
 			});
 			db.User.findByIdAndUpdate(
-				{ _id: req.body.user },
+				{ _id: mongoose.Types.ObjectId(req.body.user) },
 				{ $push: { completedChore: foundChore._id } },
 				{ new: true }
 			).then(res => {
@@ -72,13 +72,13 @@ router.post('/:id/complete', (req, res) => {
 		} else {
 			console.log('else path was run');
 			db.Chore.findByIdAndUpdate(
-				{ _id: req.params.id },
+				{ _id: mongoose.Types.ObjectId(req.params.id) },
 				{ isDone: false }
 			).then(changedChore => {
 				console.log(changedChore);
 			});
 			db.User.findByIdAndUpdate(
-				{ _id: req.body.user },
+				{ _id: mongoose.Types.ObjectId(req.body.user) },
 				{ $pull: { completedChore: foundChore._id } }
 			).then(res => {
 				console.log(res);
