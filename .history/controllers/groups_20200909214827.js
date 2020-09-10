@@ -15,7 +15,7 @@ router.get('/user', (req, res) => {
 
 //route to see all groups for a user
 router.get('/', (req, res) => {
-  db.Group.find({users: {$in: [req.body.userId]}})
+  db.Group.find({user_id: {$in: [req.body.userId]}})
   .then(foundGroups => {
     console.log(foundGroups)
     res.send(foundGroups)

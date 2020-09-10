@@ -27,7 +27,7 @@ router.post('/register', (req, res) => {
                 email: req.body.email,
                 password: req.body.password,
                 phone: req.body.phone,
-                venmo: req.body.venmo
+                
             })
             bcrypt.genSalt(10, (error, salt) => {
                 bcrypt.hash(newUser.password, salt, (err, hash) => {
