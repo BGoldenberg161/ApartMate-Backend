@@ -29,9 +29,10 @@ app.get('/', (req, res) => {
 
 app.use('/api/users' , users)
 
+
 // assign all chores randomly on Sunday at 6pm
 let resetAssignments = schedule.scheduleJob("0 16 ? * 7", function () {
-// test route: app.post('/resetAll', (req, res) => {
+
     // create algorithm for shuffling user assignments
     db.Group.find()
     .then(foundGroups => {
@@ -96,6 +97,7 @@ let resetAssignments = schedule.scheduleJob("0 16 ? * 7", function () {
             })
         })
     })
+    res.status(201).json({message: 'this worked'})
     // create function for sending out the email to the current users
 });
 

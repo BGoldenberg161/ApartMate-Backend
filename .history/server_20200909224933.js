@@ -96,6 +96,7 @@ let resetAssignments = schedule.scheduleJob("0 16 ? * 7", function () {
             })
         })
     })
+    res.status(201).json({message: 'this worked'})
     // create function for sending out the email to the current users
 });
 
