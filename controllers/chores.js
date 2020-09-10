@@ -11,13 +11,13 @@ router.get('/:groupId', (req, res) => {
     db.Chore.find({ group_id: req.params.groupId })
       .sort("date")
       .exec(function (err, collectionItems) {
-        collectionItems.forEach((collectionItems) => {
-            db.User.find({ _id: collectionItems.claim })
+        collectionItems.forEach((collectionItem) => {
+            db.User.find({ _id: collectionItem.claim })
             .then(users => {
               users.forEach(users => {
               console.log(users.name)
               db.Chore.findByIdAndUpdate(
-                { _id: collectionItems._id },
+                { _id: collectionItem._id },
                 { claimName: users.name }
               )
               .then((claimedName) => {
@@ -98,12 +98,15 @@ router.post('/:id/complete', (req, res) => {
 
 // claim a chore
 // front end logic: if claim = '' then it should be grey, if it's not an empty string, it's claimed
-router.post('/:id/claim', (req, res) => {
+router.put('/claim/:id', (req, res) => {
+  console.log('this was hit')
   db.Chore.findByIdAndUpdate(
     { _id: req.params.id },
     // replace this whatever you name it on the front end
-    { claim: req.body.user }
+    { claim: req.body.user.id },
+    { claimName: req.body.user.name }
   ).then((claimedChore) => {
+    console.log(claimedChore)
     res.status(201).send(claimedChore);
   });
 })
