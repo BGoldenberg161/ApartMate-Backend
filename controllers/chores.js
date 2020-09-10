@@ -95,7 +95,7 @@ router.post('/:id/complete', (req, res) => {
 router.put('/claim/:id', (req, res) => {
 	console.log('this was hit');
 	db.Chore.findByIdAndUpdate(
-		{ _id: mongoose.Schema.Types.ObjectId(req.params.id) },
+		{ _id: req.params.id },
 		// replace this whatever you name it on the front end
 		{ claim: req.body.user.id, claimName: req.body.user.name }
 	).then(claimedChore => {
