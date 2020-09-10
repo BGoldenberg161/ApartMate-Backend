@@ -124,4 +124,15 @@ router.get('/', (req, res) => {
 		});
 });
 
+router.delete('/:id/delete', (req, res) => {
+	db.Chore.findOneAndDelete(
+		{_id: req.params.id}
+	).then(response => {
+		console.log(response)
+	})
+	.catch(err => {
+		"Mongo ain't delete shoot"
+	})
+})
+
 module.exports = router;
