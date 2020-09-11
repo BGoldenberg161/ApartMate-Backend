@@ -1,6 +1,10 @@
+require('dotenv').config()
 const router = require("express").Router();
 const db = require("../models");
 const mongoose = require("mongoose");
+const accountSid = process.env.accountSid
+const authToken = process.env.authToken
+const twilio = require('twilio')(accountSid, authToken)
 
 // create Venmo Model
 // include primaryVenmo, item, inputPrice, user_id(array), group_id, splitPrice
@@ -42,6 +46,11 @@ router.post('/create', (req, res) => {
           let venmoHandle = user.venmo
           let requestor = venmoData.primaryVenmo
           let amount = venmoData.splitPrice
+          twilio.messages.create({
+            to: `+1${user.phone}`,
+            from: '+13143106869', ///move to .env
+            body: `venmo://paycharge?txn=pay&recipients=${requestor}&amount=${amount}&note=Apartmate%20%23BIOALI`
+          })
           console.log(`venmo://paycharge?txn=pay&recipients=${requestor}&amount=${amount}&note=Apartmate%20%23BIOALI`)
         })
       })

@@ -84,8 +84,12 @@ router.post('/addVenmo', (req, res) => {
         {"new": true}
     )
     .then(user => {
-        console.log(user.venmo)
-        res.send(user)
+        let {_id, ...restOfUser} = user.toObject()
+        let updatedUser = {
+            id: _id,
+            ...restOfUser
+        }
+        res.send(updatedUser)
     })
 })
 
