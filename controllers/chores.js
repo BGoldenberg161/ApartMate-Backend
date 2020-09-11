@@ -14,12 +14,12 @@ router.get('/:groupId', (req, res) => {
 			collectionItems.forEach(collectionItem => {
 				db.User.find({ _id: collectionItem.claim }).then(users => {
 					users.forEach(users => {
-						console.log(users.name);
+						// console.log(users.name);
 						db.Chore.findByIdAndUpdate(
 							{ _id: collectionItem._id },
 							{ claimName: users.name }
 						).then(claimedName => {
-							console.log('claimed users: ' + claimedName);
+							// console.log('claimed users: ' + claimedName);
 						});
 					});
 				});
@@ -38,7 +38,7 @@ router.post('/new', (req, res) => {
 		isRepeating: req.body.rep,
 	})
 		.then(createdChore => {
-			console.log(createdChore);
+			// console.log(createdChore);
 			res.send(createdChore);
 		})
 		.catch(err => {
@@ -59,14 +59,14 @@ router.post('/:id/complete', (req, res) => {
 				{ _id: mongoose.Types.ObjectId(req.params.id) },
 				{ isDone: true, neverDone: false }
 			).then(changedChore => {
-				console.log(changedChore);
+				// console.log(changedChore);
 			});
 			db.User.findByIdAndUpdate(
 				{ _id: mongoose.Types.ObjectId(req.body.user) },
 				{ $push: { completedChore: foundChore._id } },
 				{ new: true }
 			).then(res => {
-				console.log(res);
+				// console.log(res);
 			});
 			res.status(201).send(foundChore);
 		} else {
@@ -75,13 +75,13 @@ router.post('/:id/complete', (req, res) => {
 				{ _id: mongoose.Types.ObjectId(req.params.id) },
 				{ isDone: false }
 			).then(changedChore => {
-				console.log(changedChore);
+				// console.log(changedChore);
 			});
 			db.User.findByIdAndUpdate(
 				{ _id: mongoose.Types.ObjectId(req.body.user) },
 				{ $pull: { completedChore: foundChore._id } }
 			).then(res => {
-				console.log(res);
+				// console.log(res);
 			});
 			res.status(201).send(foundChore);
 		}
@@ -99,7 +99,7 @@ router.put('/claim/:id', (req, res) => {
 		// replace this whatever you name it on the front end
 		{ claim: req.body.user.id, claimName: req.body.user.name }
 	).then(claimedChore => {
-		console.log(claimedChore);
+		// console.log(claimedChore);
 		res.status(201).send(claimedChore);
 	});
 });
@@ -128,7 +128,7 @@ router.delete('/:id/delete', (req, res) => {
 	db.Chore.findOneAndDelete(
 		{_id: req.params.id}
 	).then(response => {
-		console.log(response)
+		// console.log(response)
 	})
 	.catch(err => {
 		"Mongo ain't delete shoot"

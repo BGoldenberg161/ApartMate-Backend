@@ -59,7 +59,10 @@ router.post('/login', (req, res) => {
                     const payload = {
                         id: user.id,
                         name: user.name,
-                        email: user.email
+                        email: user.email, 
+                        venmo: user.venmo,
+                        group_id: user.group_id[0],
+                        phone: user.phone
                     }
 
                     jwt.sign(payload, JWT_SECRET, { expiresIn: 3600 }, (err, token) => {
@@ -78,7 +81,7 @@ router.post('/addVenmo', (req, res) => {
     db.User.findOneAndUpdate(
         {_id: req.body.userId},
         {$set: {venmo: req.body.venmoHandle}},
-        {new: true}
+        {"new": true}
     )
     .then(user => {
         console.log(user.venmo)
@@ -91,7 +94,10 @@ router.get('/current', passport.authenticate('jwt', {session: false }), (req, re
     res.json({
         id: req.user.id,
         name: req.user.name,
-        email: req.user.email
+        email: req.user.email,
+        venmo: req.user.venmo,
+        group_id: req.user.group_id[0],
+        phone: req.user.phone
     })
 })
 

@@ -18,7 +18,7 @@ router.get('/', (req, res) => {
   console.log('🏄', req.query)
   db.Group.find({users: {$in: req.query.userId}})
   .then(foundGroups => {
-    console.log(foundGroups)
+    // console.log(foundGroups)
     res.send(foundGroups)
   })
   .catch(err => {
@@ -31,7 +31,7 @@ router.get('/', (req, res) => {
 router.get('/:groupId', (req, res) => {
   db.User.find({group_id: {$in: req.params.groupId}})
   .then(foundUsers => {
-    console.log(foundUsers)
+    // console.log(foundUsers)
     res.send(foundUsers)
   })
   .catch(err => {
@@ -42,8 +42,8 @@ router.get('/:groupId', (req, res) => {
 
 // Route to Create Group
 router.post('/create', (req, res) => {
-  console.log(req.body.groupName)
-  console.log('🏆', req )
+  // console.log(req.body.groupName)
+  // console.log('🏆', req )
   // see if req.user.id can hold the same values
   let groupPin = Math.random().toString().substr(2, 6)
   db.Group.create({

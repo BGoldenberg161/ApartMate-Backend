@@ -7,18 +7,21 @@ const mongoose = require("mongoose");
 // done
 
 router.post('/create', (req, res) => {
+  console.log(req.body.props)
   db.Group.findOne(
-    {_id: req.body.group_id}
+    {_id: req.body.groupId}
   )
   .then(foundGroup => {
     console.log(foundGroup.users)
-    let userVenmo = req.body.userVenmo
-    let userId = req.body.userId
+    let userVenmo = req.body.props.user.venmo
+    let userId = req.body.props.user._id
     console.log("This is USER ID" + userId)
     // replace the variables above with the right front end stuff
     let userArray = foundGroup.users
     let groupCount = userArray.length
-    let inputPrice = req.body.inputPrice
+    let inputPrice = Number(req.body.values.amount)
+    console.log(groupCount)
+    console.log(inputPrice)
     let splitPrice = inputPrice/parseFloat(groupCount)
     let updatedUserArray = userArray.filter(e => e != userId )
     console.log(updatedUserArray)
